@@ -16,7 +16,7 @@ class tutor extends StatefulWidget {
 final format = DateFormat("yyyy-MM-dd");
 
 class _SignupPageState extends State<tutor> {
-  var firstname, password,lastname,email,Degree,dob,foe,av;
+  var firstname, password,lastname,email,Degree,dob,foe,av,zoom;
   final nameCont = new TextEditingController();
   final passwordCont = new TextEditingController();
   final lnameCont = new TextEditingController();
@@ -25,6 +25,8 @@ class _SignupPageState extends State<tutor> {
   final dobCont=new TextEditingController();
   final foeCont=new TextEditingController();
   final avCont = new TextEditingController();
+  final dobzoom=new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -108,7 +110,7 @@ class _SignupPageState extends State<tutor> {
                     controller: foeCont,
 
                     decoration: InputDecoration(
-                        labelText: 'Field Of Expertise',
+                        labelText: 'Biography',
                         labelStyle: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
@@ -163,6 +165,22 @@ class _SignupPageState extends State<tutor> {
                             borderSide: BorderSide(color: Colors.green))),
                     obscureText: true,
                     onSaved: (input) => password = input,
+
+                  ),
+                  SizedBox(height: 10.0),
+                  TextFormField(
+                    controller: dobzoom,
+
+                    decoration: InputDecoration(
+                        labelText: 'Zoom Link',
+                        labelStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green))),
+                    obscureText: false,
+                    onSaved: (input) => zoom = input,
 
                   ),
 
@@ -307,6 +325,7 @@ class _SignupPageState extends State<tutor> {
       'password': passwordCont.text,
       'availability': avCont.text,
       'field_of_expertise':foeCont.text,
+      'Zoom_link': dobzoom.text,
       "num_of_tutoring_sessions" :0,
       "rating":5,
       "recommendations":"",

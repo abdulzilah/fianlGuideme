@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:guideme/vision.dart';
 
 import 'package:url_launcher/url_launcher.dart';
+
 
 
 import 'package:gradient_app_bar/gradient_app_bar.dart';
@@ -15,12 +17,17 @@ import 'package:guideme/LoginPage.dart';
 import 'package:guideme/homeCall.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
+import 'AboutUs.dart';
+import 'ContactUsGuide.dart';
 import 'IndexStudent.dart';
 import 'emailPlugin.dart';
 import 'tutor.dart';
 import 'signup.dart';
 import 'Listing.dart';
 import 'Edit.dart';
+final myCourse = TextEditingController();
+final myTime = TextEditingController();
+
 
 void main() => runApp(new MyApp());
 String dropdownValue;
@@ -286,12 +293,12 @@ class Admin extends StatelessWidget {
     Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPage()));
             },
           ),
-          ListTile(
-            title: Text('Guide Me Video Service'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPage()));
-            },
-          ),
+//          ListTile(
+//            title: Text('Guide Me Video Service'),
+//            onTap: () {
+//              Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPage()));
+//            },
+//          ),
         ],),),
 
 
@@ -501,21 +508,40 @@ var myrating;
             ),
           ),
 
-          ListTile(
-            title: Text('Attend Session'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPageSt(email: email,)));
-            },
-          ),
+//          ListTile(
+//            title: Text('Attend Session'),
+//            onTap: () {
+//              Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPageSt(email: email,)));
+//            },
+//          ),
           ListTile(
             title: Text('Reset Your Password'),
             onTap: () {
 _showDialog(context);},
           ),
           ListTile(
-            title: Text('Attend Class'),
-            onTap: () =>{_launchURL()},
+            title: Text('About Us'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => About()));
+
+            },
           ),
+          ListTile(
+            title: Text('Our Vision'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => vision()));
+            },
+          ),
+          ListTile(
+            title: Text('Contact Us'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsGuide()));
+            },
+          )
+//          ListTile(
+//            title: Text('Attend Class'),
+//            onTap: () =>{_launchURL()},
+//          ),
         ],),),
 
 
@@ -574,17 +600,17 @@ _showDialog(context);},
                           color: Colors.grey),
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.green))),)
-                    
+
                 ),
 
 
 
                 Container(
 
-
-                  padding: EdgeInsets.fromLTRB(0.0, 200.0, 30.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(0.0, 200.0, 25.0, 0.0),
 
                   child: FutureBuilder(
+
 
                       future: getSuggestion(search),
                       builder: (_, snapshot) {
@@ -596,8 +622,9 @@ _showDialog(context);},
                               child: Text("Loading..."),
                             );
                         } else {
-                          return ListView.builder(
-                              padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 50.0),
+                          return  ListView.builder(
+
+                              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 50.0),
 
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
@@ -613,7 +640,7 @@ _showDialog(context);},
                                           snapshot.data[index].data["first_name"]+" "
                                               +snapshot.data[index].data["last_name"]),
                                       subtitle: Text(
-                                          "Expert in: " + snapshot.data[index].data["field_of_expertise"]+
+                                          "Bio: " + snapshot.data[index].data["field_of_expertise"]+
                                               "\nAvailability: " +snapshot.data[index].data["availability"]+
                                               "\nDegree: " +snapshot.data[index].data["degree"]+
                                               "\nRating: " +snapshot.data[index].data["rating"].toString()
@@ -623,7 +650,17 @@ _showDialog(context);},
 
 
                                       //   trailing: snapshot.data[index].data["availability"],
-                                      trailing: IconButton(icon: Icon(Icons.email), onPressed:()=>    get(email,context,snapshot.data[index].data["email"])
+                                      trailing: Wrap(
+                                      spacing: 15, // space between two icons
+                                      children: <Widget>[
+                                        IconButton(icon: Icon(Icons.video_call), onPressed:()=>    _launchURLI(snapshot.data[index].data["Zoom_link"])),
+                                      IconButton(icon: Icon(Icons.email), onPressed:()=>   popup(email,context,snapshot.data[index].data["email"])),
+                                          //get(email,context,snapshot.data[index].data["email"])),
+
+                                        ],
+                                    ),
+
+                                  //IconButton(icon: Icon(Icons.email), onPressed:()=>    get(email,context,snapshot.data[index].data["email"])
                                         //
                                         // { Navigator.push(context,MaterialPageRoute(builder:(context)=>emailPlug()));}
 
@@ -631,67 +668,18 @@ _showDialog(context);},
 
                                       ),
 
-                                    )
+
 
                                 );
+
                               });
+
                         }
+
                       }),
+
                 ),
-//                Container(
-//
-//                  padding: EdgeInsets.fromLTRB(0.0, 200.0, 30.0, 0.0),
-//
-//                  child: FutureBuilder(
-//
-//                      future: getCourses(),
-//
-//                      builder: (_, snapshot) {
-//                        if (snapshot.connectionState ==
-//                            ConnectionState.waiting) {
-//                          return
-//                            Center(
-//                            child: Text("Loading..."),
-//                          );
-//                        } else {
-//                          return ListView.builder(
-//                              padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 50.0),
-//
-//                              scrollDirection: Axis.vertical,
-//                              shrinkWrap: true,
-//                              itemCount: snapshot.data.length,
-//                              itemBuilder: (_, index) {
-//                                return Card(
-//
-//
-//                                  child: ListTile(
-////                                    onTap: () => Navigator.push(context,MaterialPageRoute(builder:(context)=>Detailed()))
-//
-//                                    title: Text(
-//                                          snapshot.data[index].data["first_name"]+" "
-//                                              +snapshot.data[index].data["last_name"]),
-//                                      subtitle: Text(
-//                                          "Expert in: " + snapshot.data[index].data["field_of_expertise"]+
-//                                              "\navailability: " +snapshot.data[index].data["availability"]+
-//                                              "\ndegree: " +snapshot.data[index].data["degree"]+
-//                                          "\nEmail: "+ snapshot.data[index].data["email"]
-//                                      ),
-//
-//
-//
-//                                 //   trailing: snapshot.data[index].data["availability"],
-//                                      trailing: IconButton(icon: Icon(Icons.email), onPressed:() { Navigator.push(context,MaterialPageRoute(builder:(context)=>emailPlug()));}
-//
-//
-//                                  ),
-//
-//                                  )
-//
-//                                );
-//                              });
-//                        }
-//                      }),
-//                ),
+
                 SizedBox(
                   height: MediaQuery.of(context).viewInsets.bottom,
                 ),
@@ -708,9 +696,9 @@ _showDialog(context);},
       ),
     );
   }
-  void check(int sessions, BuildContext context,email){
+  void check(int sessions, BuildContext context,email,course,time){
 if(sessions  < 2){
-  Navigator.push(context,MaterialPageRoute(builder:(context)=>emailPlug(email: email)));
+  Navigator.push(context,MaterialPageRoute(builder:(context)=>emailPlug(email: email, course: course , time: time)));
 }
 else{
   Fluttertoast.showToast(
@@ -724,8 +712,62 @@ else{
 
 }
   }
-  void get(String email, BuildContext context,String Tmail) {
-    int sessions, total;
+  _launchURLI(String zoom) async {
+    String url = zoom;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  void popup (String email, BuildContext context,String Tmail){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.circular(20.0)), //this right here
+            child: Container(
+              height: 200,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextField(
+                      controller: myCourse,
+                      decoration: InputDecoration(
+                          hintText: 'Desired Course'),
+                    ),
+                    TextField(
+                      controller: myTime,
+                      decoration: InputDecoration(
+                          hintText: 'Time'),
+                    ),
+                    SizedBox(
+                      width: 320.0,
+                      child: RaisedButton(
+                        onPressed: () => get(email,context,Tmail,myCourse.text,myTime.text),
+                        child: Text(
+                          "Save",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        color: Colors.green,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+
+  void get(String email, BuildContext context,String Tmail,String course, String time) {
+              int sessions, total;
     Firestore.instance.collection('Student')
         .document(email)
         .get()
@@ -733,10 +775,12 @@ else{
       sessions = document['num_of_weekly_sessions'];
       total = document['num_of_sessions'];
       print("num_of_weekly_sessions:$sessions");
-      check(sessions,context,Tmail);
+      check(sessions,context,Tmail,course,time);
 
     });
   }
+
+
 
   void rating(String email, BuildContext context){
 

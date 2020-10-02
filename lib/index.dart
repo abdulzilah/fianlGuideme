@@ -9,6 +9,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:guideme/signup.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 import './call.dart';
 
 
@@ -107,24 +108,24 @@ class IndexState extends State<IndexPage> {
                         ),
                     ),
 
-                    ListTile(
-                        title: Text('Attend Session'),
-                        onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPage()));
-                        },
-                    ),
+//                    ListTile(
+//                        title: Text('Attend Session'),
+//                        onTap: () {
+//                            Navigator.push(context, MaterialPageRoute(builder: (context) => IndexPage()));
+//                        },
+//                    ),
                     ListTile(
                         title: Text('reset your password'),
                         onTap: () {
                             _showDialog(context);},
                     ),
-                    ListTile(
-                        title: Text('Change available time'),
-                        onTap: () {
-                            print((email));
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>EditAvailable(email :email)));
-                            },
-                    ),
+//                    ListTile(
+//                        title: Text('Change available time'),
+//                        onTap: () {
+//                            print((email));
+//                            Navigator.push(context, MaterialPageRoute(builder: (context)=>EditAvailable(email :email)));
+//                            },
+//                    ),
                 ],),),
             appBar: GradientAppBar(
                 title: Text('Guide Me',
@@ -136,47 +137,59 @@ class IndexState extends State<IndexPage> {
 
                 child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    height: 400,
                     child: Column(
                         children: <Widget>[
                             Row(
                                 children: <Widget>[
-                                    Expanded(
-                                        child: TextField(
-                                            controller: _channelController,
-                                            decoration: InputDecoration(
-                                                errorText:
-                                                _validateError ? 'meeting name is mandatory' : null,
-                                                border: UnderlineInputBorder(
-                                                    borderSide: BorderSide(width: 1),
-                                                ),
-                                                hintText: 'meeting token',
-                                            ),
-                                        ))
+//                                    Expanded(
+//                                        child: TextField(
+//                                            controller: _channelController,
+//                                            decoration: InputDecoration(
+//                                                errorText:
+//                                                _validateError ? 'meeting name is mandatory' : null,
+//                                                border: UnderlineInputBorder(
+//                                                    borderSide: BorderSide(width: 1),
+//                                                ),
+//                                                hintText: 'meeting token',
+//                                            ),
+//                                        ))
                                 ],
+                            ),
+                            Container(
+                                padding: EdgeInsets.fromLTRB(0.0, 125.0, 0.0, 0.0),
+                                child: Text('Welcome',
+                                    style: TextStyle(
+                                        fontSize: 60.0, fontWeight: FontWeight.bold)),
+                            ),
+                            Container(
+                                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                child: Text('Back',
+                                    style: TextStyle(
+                                        fontSize: 60.0, fontWeight: FontWeight.bold)),
                             ),
                             Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 20),
+
                                 child: Column(
 
                                     children: <Widget>[
-                                        Text("Please press on Generate to get new meeting token"),
+//                                        Text("Please press on Generate to get new meeting token"),
                                         RaisedButton(
 
-                                            onPressed:() =>get(),
+                                            onPressed:() =>_launchURLI(),
                                             // onJoin(email),
-                                            child: Text('Join',),
+                                            child: Text('Go To Zoom',),
                                             color: Colors.green,
                                             textColor: Colors.white,
                                         ),
 
-                                        RaisedButton(
-
-                                            onPressed: generate,
-                                            child: Text('Generate',),
-                                            color: Colors.greenAccent,
-                                            textColor: Colors.white,
-                                        )
+//                                        RaisedButton(
+//
+//                                            onPressed: generate,
+//                                            child: Text('Generate',),
+//                                            color: Colors.greenAccent,
+//                                            textColor: Colors.white,
+//                                        )
 
 
                                     ],
@@ -189,6 +202,14 @@ class IndexState extends State<IndexPage> {
                 ),
             ),
         );
+    }
+    _launchURLI() async {
+        String url = 'https://zoom.us/signin';
+        if (await canLaunch(url)) {
+            await launch(url);
+        } else {
+            throw 'Could not launch $url';
+        }
     }
 
     Future<void> onJoin(String s) async {

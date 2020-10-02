@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.guideme">
+    package="com.GuideMeltd.guideme">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -10,7 +10,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="guideme"
+        android:label="Guide-Me"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

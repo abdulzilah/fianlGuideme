@@ -236,7 +236,7 @@ class IndexStateSt extends State<IndexPageSt> {
 
 
   Future<void> onJoin(String s,int session) async {
-if(session<2) {
+if(session<16) {
   // update input validation
   setState(() {
     _channelController.text.isEmpty

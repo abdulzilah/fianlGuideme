@@ -1,4 +1,5 @@
 // ignore: avoid_web_libraries_in_flutter
+import 'package:contactus/contactus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
@@ -11,6 +12,7 @@ import 'package:guideme/tutor.dart';
 import 'index.dart';
 import 'AboutUs.dart';
 import 'vision.dart';
+import 'ContactUsGuide.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 
@@ -82,6 +84,12 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => vision()));
     },
       ),
+                ListTile(
+                  title: Text('Contact Us'),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsGuide()));
+                  },
+                )
     ],),),
 
 

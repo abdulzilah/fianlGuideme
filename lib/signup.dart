@@ -27,7 +27,6 @@ class _SignupPageState extends State<SignupPage> {
   var firstname, password,lastname,email,level,dob,phone;
   final nameCont = new TextEditingController();
   final phoneCont = new TextEditingController();
-
   final passwordCont = new TextEditingController();
   final lnameCont = new TextEditingController();
   final emailCont = new TextEditingController();

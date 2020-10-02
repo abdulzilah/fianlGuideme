@@ -11,32 +11,37 @@ import 'package:gradient_app_bar/gradient_app_bar.dart';
 
 class emailPlug extends StatefulWidget {
 String email;
-emailPlug({this.email});
+String course;
+String time;
+emailPlug({this.email, this.course,this.time});
     @override
-    _MyAppState createState() => _MyAppState(email: email);
+    _MyAppState createState() => _MyAppState(email: email, course:course,time:time);
 
 }
 
 class _MyAppState extends State<emailPlug> {
     String email="";
-    _MyAppState({this.email});
+   String course=emailPlug().course;
+     String time;
+
+    _MyAppState({this.email,this.course,this.time});
     List<String> attachments = [];
     bool isHTML = false;
 
     final _recipientController = TextEditingController();
 
-
-    final _subjectController = TextEditingController(text: 'Request session token');
-
+    final _subjectController = TextEditingController(text: 'Request to Attend a Session');
     final _bodyController = TextEditingController(
-        text: 'Dear Tutor \nI would like to attend your session, please send me the sessions token/id ',
+        text: ' ',
     );
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+
     Future<void> send() async {
         final Email email = Email(
             body: _bodyController.text,
+            cc: ['guidemeemail@gmail.com'],
             subject: _subjectController.text,
             recipients: [_recipientController.text],
             attachmentPaths: attachments,
@@ -115,6 +120,7 @@ class _MyAppState extends State<emailPlug> {
                                 Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: TextField(
+                                        onTap: ()=> _bodyController.text='Dear Tutor \nI would like to attend your session \nDesired Course: $course \nTime: $time',
                                         controller: _bodyController,
                                         maxLines: 10,
                                         decoration: InputDecoration(
